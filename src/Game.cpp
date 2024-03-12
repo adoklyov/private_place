@@ -6,6 +6,11 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 
+/*TO DO: 1. Statistika na tochki vuv file
+ 		 2. Win line da e kartina i da se rotate-va
+		 	sprqmo win conditionite*/
+
+
 //Constructor
 Game::Game() {
 
@@ -43,6 +48,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 
 	//Game window
 	gameWindow = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
+
 	//Game renderer
 	gameRenderer = SDL_CreateRenderer(gameWindow, -1, 0);
 
@@ -112,6 +118,9 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 	//Load O image
 	oImage = IMG_LoadTexture(gameRenderer, "assets/images/O.png");
 
+	//Load Win Line Image
+	winLineImage = IMG_LoadTexture(gameRenderer, "assets/images/line.png");
+
 	//Background surface
 	surface = IMG_Load("assets/images/background.png");
 
@@ -177,10 +186,17 @@ void Game::render() {
 		int boardOffsetY = 0;
 		
 		//Win conditions when the game is over
+
 		if (gameBoard->winHor1()) {
-			int startY = boardOffsetY + cellSize / 2; 
-			SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
-			SDL_RenderDrawLine(gameRenderer, boardOffsetX, startY, boardOffsetX + cellSize * 3, startY);
+			int startY = boardOffsetY + cellSize / 2;
+			SDL_Rect winRect; 
+			winRect.x = 150;
+			winRect.y = 150;
+			// winRect.w = 150;
+			// winRect.h = 150;
+			SDL_RenderCopy(gameRenderer, winLineImage, NULL, &winRect);
+			// SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
+			// SDL_RenderDrawLine(gameRenderer, boardOffsetX, startY, boardOffsetX + cellSize * 3, startY);
 			winMessage();
 		}
 
@@ -528,43 +544,58 @@ void Game::renderGame() {
 			if (pos == X) {
 				//Draw Red X
 				//SDL_SetRenderDrawColor(gameRenderer, 255, 0, 0, 255);
-				//int offset = cellSize / 4;
+				int offset = cellSize / 4;
 				//SDL_RenderDrawLine(gameRenderer, centerX - offset, centerY - offset, centerX + offset, centerY + offset);
 				//SDL_RenderDrawLine(gameRenderer, centerX + offset, centerY - offset, centerX - offset, centerY + offset);
-				
+				SDL_Rect xRect;
+				xRect.x = centerX - offset;
+				xRect.y = centerY - offset;
+				xRect.w = 150;
+				xRect.h = 150;
+
+				SDL_RenderCopy(gameRenderer, xImage, NULL, &xRect);
+
 			}
 			else if (pos == O) {
 				//Draw Blue Circle
-				SDL_SetRenderDrawColor(gameRenderer, 0, 0, 255, 255);
-				int radius = cellSize / 4;
-				int x = radius - 1;
-				int y = 0;
-				int tx = 1;
-				int ty = 1;
-				int err = tx - (radius << 1);
+				int offset = cellSize / 4;
+				SDL_Rect oRect;
+				oRect.x = centerX - offset;
+				oRect.y = centerY - offset;
+				oRect.w = 150;
+				oRect.h = 150;
 
-				while (x >= y) {
-					SDL_RenderDrawPoint(gameRenderer, centerX + x, centerY - y);
-					SDL_RenderDrawPoint(gameRenderer, centerX + x, centerY + y);
-					SDL_RenderDrawPoint(gameRenderer, centerX - x, centerY - y);
-					SDL_RenderDrawPoint(gameRenderer, centerX - x, centerY + y);
-					SDL_RenderDrawPoint(gameRenderer, centerX + y, centerY - x);
-					SDL_RenderDrawPoint(gameRenderer, centerX + y, centerY + x);
-					SDL_RenderDrawPoint(gameRenderer, centerX - y, centerY - x);
-					SDL_RenderDrawPoint(gameRenderer, centerX - y, centerY + x);
+				SDL_RenderCopy(gameRenderer, oImage, NULL, &oRect);
+				// SDL_SetRenderDrawColor(gameRenderer, 0, 0, 255, 255);
+				// int radius = cellSize / 4;
+				// int x = radius - 1;
+				// int y = 0;
+				// int tx = 1;
+				// int ty = 1;
+				// int err = tx - (radius << 1);
 
-					if (err <= 0) {
-						y++;
-						err += ty;
-						ty += 2;
-					}
+				// while (x >= y) {
+				// 	SDL_RenderDrawPoint(gameRenderer, centerX + x, centerY - y);
+				// 	SDL_RenderDrawPoint(gameRenderer, centerX + x, centerY + y);
+				// 	SDL_RenderDrawPoint(gameRenderer, centerX - x, centerY - y);
+				// 	SDL_RenderDrawPoint(gameRenderer, centerX - x, centerY + y);
+				// 	SDL_RenderDrawPoint(gameRenderer, centerX + y, centerY - x);
+				// 	SDL_RenderDrawPoint(gameRenderer, centerX + y, centerY + x);
+				// 	SDL_RenderDrawPoint(gameRenderer, centerX - y, centerY - x);
+				// 	SDL_RenderDrawPoint(gameRenderer, centerX - y, centerY + x);
 
-					if (err > 0) {
-						x--;
-						tx += 2;
-						err += tx - (radius << 1);
-					}
-				}
+				// 	if (err <= 0) {
+				// 		y++;
+				// 		err += ty;
+				// 		ty += 2;
+				// 	}
+
+				// 	if (err > 0) {
+				// 		x--;
+				// 		tx += 2;
+				// 		err += tx - (radius << 1);
+				// 	}
+				// }
 			}
 		}
 	}

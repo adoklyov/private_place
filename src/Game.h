@@ -80,6 +80,8 @@ private:
     SDL_Texture* xImage;
     //O image ---------
     SDL_Texture* oImage;
+    //Win line image
+    SDL_Texture* winLineImage;
     //Background image
     SDL_Surface* surface;
     SDL_Texture* texture;
