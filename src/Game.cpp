@@ -229,39 +229,83 @@ void Game::render() {
 
 		else if (gameBoard->winVer1()) {
 			SDL_Rect winRect;
-			winRect.x = boardOffsetX + cellSize / 2;
-			winRect.y = 150;
-			winRect.w = 150;
-			winRect.h = 600;
-			SDL_RenderCopy(gameRenderer, winLineImage, NULL, &winRect);
+			winRect.x = -150;
+			winRect.y = boardOffsetY + cellSize * 1.25;
+			winRect.w = 600;
+			winRect.h = 150;
+			SDL_Point center = { winRect.w/2, winRect.h/2};
+			double angle = 90;
+			//winRect.x += (winRect.w - winRect.h) / 2;
+			//winRect.y += (winRect.h - winRect.w) / 2;
+			SDL_RenderCopyEx(gameRenderer, winLineImage, NULL, &winRect, angle, &center, SDL_FLIP_NONE);
 			// SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
 			// SDL_RenderDrawLine(gameRenderer, startX, boardOffsetY, startX, boardOffsetY + cellSize * 3);
 			winMessage();
 		}
 
 		else if (gameBoard->winVer2()) {
-			int startX = boardOffsetX + cellSize * 1.5;
-			SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
-			SDL_RenderDrawLine(gameRenderer, startX, boardOffsetY, startX, boardOffsetY + cellSize * 3);
+			SDL_Rect winRect;
+			winRect.x = 150;
+			winRect.y = boardOffsetY + cellSize * 1.25;
+			winRect.w = 600;
+			winRect.h = 150;
+			SDL_Point center = { winRect.w/2, winRect.h/2};
+			double angle = 90;
+			//winRect.x += (winRect.w - winRect.h) / 2;
+			//winRect.y += (winRect.h - winRect.w) / 2;
+			SDL_RenderCopyEx(gameRenderer, winLineImage, NULL, &winRect, angle, &center, SDL_FLIP_NONE);
+			// int startX = boardOffsetX + cellSize * 1.5;
+			// SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
+			// SDL_RenderDrawLine(gameRenderer, startX, boardOffsetY, startX, boardOffsetY + cellSize * 3);
 			winMessage();
 		}
 
 		else if (gameBoard->winVer3()) {
-			int startX = boardOffsetX + cellSize * 2.5;
-			SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
-			SDL_RenderDrawLine(gameRenderer, startX, boardOffsetY, startX, boardOffsetY + cellSize * 3);
+			SDL_Rect winRect;
+			winRect.x = 450;
+			winRect.y = boardOffsetY + cellSize * 1.25;
+			winRect.w = 600;
+			winRect.h = 150;
+			SDL_Point center = { winRect.w/2, winRect.h/2};
+			double angle = 90;
+			//winRect.x += (winRect.w - winRect.h) / 2;
+			//winRect.y += (winRect.h - winRect.w) / 2;
+			SDL_RenderCopyEx(gameRenderer, winLineImage, NULL, &winRect, angle, &center, SDL_FLIP_NONE);
+			// int startX = boardOffsetX + cellSize * 2.5;
+			// SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
+			// SDL_RenderDrawLine(gameRenderer, startX, boardOffsetY, startX, boardOffsetY + cellSize * 3);
 			winMessage();
 		}
 
 		else if (gameBoard->winDia1()) {
-			SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
-			SDL_RenderDrawLine(gameRenderer, boardOffsetX + cellSize / 2, boardOffsetY + cellSize / 2, boardOffsetX + cellSize * 2.5, boardOffsetY + cellSize * 2.5);
+			SDL_Rect winRect;
+			winRect.x = 35;
+			winRect.y = boardOffsetY + cellSize * 1.25;
+			winRect.w = 900;
+			winRect.h = 200;
+			SDL_Point center = { winRect.w/2, winRect.h/3};
+			double angle = 45;
+			//winRect.x += (winRect.w - winRect.h) / 2;
+			//winRect.y += (winRect.h - winRect.w) / 2;
+			SDL_RenderCopyEx(gameRenderer, winLineImage, NULL, &winRect, angle, &center, SDL_FLIP_NONE);
+			// SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
+			// SDL_RenderDrawLine(gameRenderer, boardOffsetX + cellSize / 2, boardOffsetY + cellSize / 2, boardOffsetX + cellSize * 2.5, boardOffsetY + cellSize * 2.5);
 			winMessage();
 		}
 
 		else if (gameBoard->winDia2()) {
-			SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
-			SDL_RenderDrawLine(gameRenderer, boardOffsetX + cellSize * 2.5, boardOffsetY + cellSize / 2, boardOffsetX + cellSize / 2, boardOffsetY + cellSize * 2.5);
+			SDL_Rect winRect;
+			winRect.x = 35;
+			winRect.y = boardOffsetY + cellSize * 1.25;
+			winRect.w = 900;
+			winRect.h = 200;
+			SDL_Point center = { winRect.w/2, winRect.h/3};
+			double angle = 135;
+			//winRect.x += (winRect.w - winRect.h) / 2;
+			//winRect.y += (winRect.h - winRect.w) / 2;
+			SDL_RenderCopyEx(gameRenderer, winLineImage, NULL, &winRect, angle, &center, SDL_FLIP_NONE);
+			// SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
+			// SDL_RenderDrawLine(gameRenderer, boardOffsetX + cellSize * 2.5, boardOffsetY + cellSize / 2, boardOffsetX + cellSize / 2, boardOffsetY + cellSize * 2.5);
 			winMessage();
 		}
 
