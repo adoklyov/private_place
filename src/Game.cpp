@@ -188,12 +188,12 @@ void Game::render() {
 		//Win conditions when the game is over
 
 		if (gameBoard->winHor1()) {
-			int startY = boardOffsetY + cellSize / 2;
+			//int startY = boardOffsetY + cellSize / 2;
 			SDL_Rect winRect; 
 			winRect.x = 150;
-			winRect.y = 150;
-			// winRect.w = 150;
-			// winRect.h = 150;
+			winRect.y = boardOffsetY + cellSize / 4;
+			winRect.w = 600;
+			winRect.h = 150;
 			SDL_RenderCopy(gameRenderer, winLineImage, NULL, &winRect);
 			// SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
 			// SDL_RenderDrawLine(gameRenderer, boardOffsetX, startY, boardOffsetX + cellSize * 3, startY);
@@ -202,23 +202,40 @@ void Game::render() {
 
 		else if (gameBoard->winHor2()) {
 
-			int startY = boardOffsetY + cellSize * 1.5; 
-			SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
-			SDL_RenderDrawLine(gameRenderer, boardOffsetX, startY, boardOffsetX + cellSize * 3, startY);
+			SDL_Rect winRect;
+			winRect.x = 150;
+			winRect.y = boardOffsetY + cellSize * 1.25;
+			winRect.w = 600;
+			winRect.h = 150;
+			SDL_RenderCopy(gameRenderer, winLineImage, NULL, &winRect);
+			// int startY = boardOffsetY + cellSize * 1.5; 
+			// SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
+			// SDL_RenderDrawLine(gameRenderer, boardOffsetX, startY, boardOffsetX + cellSize * 3, startY);
 			winMessage();
 		}
 
 		else if (gameBoard->winHor3()) {
-			int startY = boardOffsetY + cellSize * 2.5;
-			SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
-			SDL_RenderDrawLine(gameRenderer, boardOffsetX, startY, boardOffsetX + cellSize * 3, startY);
+			SDL_Rect winRect;
+			winRect.x = 150;
+			winRect.y = boardOffsetY + cellSize * 2.25;
+			winRect.w = 600;
+			winRect.h = 150;
+			SDL_RenderCopy(gameRenderer, winLineImage, NULL, &winRect);
+			// int startY = boardOffsetY + cellSize * 2.5;
+			// SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
+			// SDL_RenderDrawLine(gameRenderer, boardOffsetX, startY, boardOffsetX + cellSize * 3, startY);
 			winMessage();
 		}
 
 		else if (gameBoard->winVer1()) {
-			int startX = boardOffsetX + cellSize / 2;
-			SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
-			SDL_RenderDrawLine(gameRenderer, startX, boardOffsetY, startX, boardOffsetY + cellSize * 3);
+			SDL_Rect winRect;
+			winRect.x = boardOffsetX + cellSize / 2;
+			winRect.y = 150;
+			winRect.w = 150;
+			winRect.h = 600;
+			SDL_RenderCopy(gameRenderer, winLineImage, NULL, &winRect);
+			// SDL_SetRenderDrawColor(gameRenderer, 0, 255, 0, 255);
+			// SDL_RenderDrawLine(gameRenderer, startX, boardOffsetY, startX, boardOffsetY + cellSize * 3);
 			winMessage();
 		}
 
