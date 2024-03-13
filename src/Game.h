@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <iostream>
+#include <fstream>
 
 #include "Player.h"
 #include "Board.h"
@@ -66,6 +67,12 @@ public:
     void togglePlayerTurn();
     //Current player turn
     void currentPlayerTurn();
+    //Player X score
+    void playerXScore();
+    //Player O score
+    void playerOScore();
+    //Score file tracking
+    void scoreboard();
 
 private:
 
@@ -108,6 +115,9 @@ private:
     Button restartButton;
     //Game states
     GameState gameState;
+    //X and O scores
+    int xScore = 0;
+    int oScore = 0;
 
 };
 

@@ -6,9 +6,8 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 
-/*TO DO: 1. Statistika na tochki vuv file
- 		 2. Win line da e kartina i da se rotate-va
-		 	sprqmo win conditionite*/
+/*TO DO: 1. Statistika na tochki vuv file*/
+
 
 
 //Constructor
@@ -314,6 +313,8 @@ void Game::render() {
 		readyButton.setActive(false);
 		undoButton.setActive(false);
 		restartButton.setActive(true);
+		playerXScore();
+		playerOScore();
 		renderGame();
 	}
 
@@ -325,6 +326,8 @@ void Game::render() {
 		readyMessage();
 		renderGame();
 		currentPlayerTurn();
+		playerXScore();
+		playerOScore();
 	}
 
 	//Draw state rendering
@@ -333,6 +336,8 @@ void Game::render() {
 		undoButton.setActive(false);
 		readyButton.setActive(false);
 		restartButton.setActive(true);
+		playerXScore();
+		playerOScore();
 		drawMessage();
 	}
 
@@ -746,5 +751,51 @@ void Game::currentPlayerTurn() {
 
 	SDL_DestroyTexture(messageTexture);
 	SDL_FreeSurface(surfaceMessage); 
+
+}
+
+//X player's wins
+void Game::playerXScore(){
+
+	SDL_Color textColor = { 255, 255, 255, 255 };
+
+	string xPlayerScore = "Player X's score: " + xScore;
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, xPlayerScore.c_str(), textColor);
+	SDL_Texture* messageTexture = SDL_CreateTextureFromSurface(gameRenderer, surfaceMessage);
+
+	int messageWidth = surfaceMessage->w;
+	int messageHeight = surfaceMessage->h;
+	SDL_Rect messageRect = { (1680 - messageWidth) / 4, 20, messageWidth, messageHeight };
+
+	SDL_RenderCopy(gameRenderer, messageTexture, NULL, &messageRect);
+
+	SDL_DestroyTexture(messageTexture);
+	SDL_FreeSurface(surfaceMessage);
+
+}
+
+//O player's wins
+void Game::playerOScore(){
+
+	SDL_Color textColor = { 255, 255, 255, 255 };
+
+	string oPlayerScore = "Player O's score: ";
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, oPlayerScore.c_str(), textColor);
+	SDL_Texture* messageTexture = SDL_CreateTextureFromSurface(gameRenderer, surfaceMessage);
+
+	int messageWidth = surfaceMessage->w;
+	int messageHeight = surfaceMessage->h;
+	SDL_Rect messageRect = { (1680 - messageWidth) / 4, 880, messageWidth, messageHeight };
+
+	SDL_RenderCopy(gameRenderer, messageTexture, NULL, &messageRect);
+
+	SDL_DestroyTexture(messageTexture);
+	SDL_FreeSurface(surfaceMessage);
+
+}
+
+//Scoreboard tracking
+void Game::scoreboard(){
+	ofstream file("scoreboard.txt", ios::app);
 
 }
