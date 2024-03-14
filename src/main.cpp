@@ -1,5 +1,16 @@
 #include "Game.h"
 #include <iostream>
+#include <pugixml.hpp>
+
+/*
+
+
+
+
+/|"BONUS"|/1. make it work
+*/
+
+
 
 using namespace std;
 
@@ -10,7 +21,8 @@ const int WINDOW_HEIGHT = 900;
 
 int main(int argc, char* argv[]) {
 
-    //Game initialisation
+
+    // Game initialisation
     game = new Game();
     game->init("Game Window",
         SDL_WINDOWPOS_CENTERED,

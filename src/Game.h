@@ -71,8 +71,14 @@ public:
     void playerXScore();
     //Player O score
     void playerOScore();
-    //Score file tracking
-    void scoreboard();
+    //Write score in file
+    void scoreboardFile(int xScore, int oScore);
+    //Read from scoreboard
+    void readFromScore(int& xScore, int& oScore);
+    //Read from XML
+    void readFromScoreFromXML(int& xScore, int& oScore);
+    //Write in XML
+    void writeScoreInXML(int& xScore, int& oScore);
 
 private:
 

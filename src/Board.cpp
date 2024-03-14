@@ -123,6 +123,7 @@ bool Board::winDia2() {
         return true;
     }
     return false;
+
 }
 
 //Method to check for draw condition

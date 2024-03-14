@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<Game>
+	<PlayerX score="1" />
+	<PlayerO score="1" />
+</Game>

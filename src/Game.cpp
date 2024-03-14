@@ -4,8 +4,9 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
+#include <pugixml.hpp>
 #include <iostream>
-
+#include <fstream>
 /*TO DO: 1. Statistika na tochki vuv file*/
 
 
@@ -183,6 +184,7 @@ void Game::render() {
 		int cellSize = 300;
 		int boardOffsetX = 0;
 		int boardOffsetY = 0;
+		renderGame();
 		
 		//Win conditions when the game is over
 
@@ -291,15 +293,17 @@ void Game::render() {
 			// SDL_RenderDrawLine(gameRenderer, boardOffsetX + cellSize / 2, boardOffsetY + cellSize / 2, boardOffsetX + cellSize * 2.5, boardOffsetY + cellSize * 2.5);
 			winMessage();
 		}
-
 		else if (gameBoard->winDia2()) {
 			SDL_Rect winRect;
 			winRect.x = 35;
-			winRect.y = boardOffsetY + cellSize * 1.25;
+			//testing
+			//winRect.y = boardOffsetY + cellSize * 1.25;
+			winRect.y = boardOffsetY + cellSize;
 			winRect.w = 900;
 			winRect.h = 200;
-			SDL_Point center = { winRect.w/2, winRect.h/3};
-			double angle = 135;
+			//SDL_Point center = { winRect.w/2, winRect.h/3};
+			SDL_Point center = { winRect.w/2 - 45, winRect.h/2 + 25};
+			double angle = 135; // ----------
 			//winRect.x += (winRect.w - winRect.h) / 2;
 			//winRect.y += (winRect.h - winRect.w) / 2;
 			SDL_RenderCopyEx(gameRenderer, winLineImage, NULL, &winRect, angle, &center, SDL_FLIP_NONE);
@@ -315,7 +319,7 @@ void Game::render() {
 		restartButton.setActive(true);
 		playerXScore();
 		playerOScore();
-		renderGame();
+
 	}
 
 	//Playing State rendering
@@ -367,6 +371,7 @@ void Game::handleEvents() {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
+
 			running = false;
 		}
 		else if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -685,6 +690,14 @@ void Game::processBoardClick(int mouseX, int mouseY) {
 
 			if (checkWinCon()) {
 				gameState = OVER;
+				if (currentPlayerState == XPLAYER){
+					xScore++;
+				} else {
+					oScore++;
+				}
+				//scoreboardFile(xScore, oScore);
+				//Testing XML
+				writeScoreInXML(xScore, oScore);
 			}
 			else if (gameBoard->drawCondition()) {
 				gameState = DRAW;
@@ -758,8 +771,10 @@ void Game::currentPlayerTurn() {
 void Game::playerXScore(){
 
 	SDL_Color textColor = { 255, 255, 255, 255 };
-
-	string xPlayerScore = "Player X's score: " + xScore;
+	//readFromScore(xScore, oScore);
+	//Testing XML
+	readFromScoreFromXML(xScore, oScore);
+	string xPlayerScore = "Player X's score: " + to_string(xScore);
 	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, xPlayerScore.c_str(), textColor);
 	SDL_Texture* messageTexture = SDL_CreateTextureFromSurface(gameRenderer, surfaceMessage);
 
@@ -778,8 +793,10 @@ void Game::playerXScore(){
 void Game::playerOScore(){
 
 	SDL_Color textColor = { 255, 255, 255, 255 };
-
-	string oPlayerScore = "Player O's score: ";
+	//readFromScore(xScore, oScore);
+	//Testing XML
+	readFromScoreFromXML(xScore, oScore);
+	string oPlayerScore = "Player O's score: " + to_string(oScore);
 	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, oPlayerScore.c_str(), textColor);
 	SDL_Texture* messageTexture = SDL_CreateTextureFromSurface(gameRenderer, surfaceMessage);
 
@@ -794,8 +811,79 @@ void Game::playerOScore(){
 
 }
 
-//Scoreboard tracking
-void Game::scoreboard(){
-	ofstream file("scoreboard.txt", ios::app);
+//Writing score in file
+void Game::scoreboardFile(int xScore, int oScore){
 
+	ofstream file("scoreboard.txt", ios::trunc);
+	if (file) {
+		file << "Player X:" << xScore << endl;
+		file << "Player O:" << oScore << endl;
+	} 
+	file.close();
+}
+
+//Read from score file
+void Game::readFromScore(int& xScore, int& oScore){
+	string mText;
+	char c;
+	int diff; 
+	ifstream file("scoreboard.txt");
+	if(!file){
+		cerr << "Error" << '\n';
+		file.close();
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		getline(file, mText, ':');
+		c = file.get();
+		diff = c - 48;
+
+		if(i == 0)
+		{
+			xScore = diff;
+		}
+		else if (i == 1)
+		{
+			oScore = diff;
+		}
+	}
+	file.close();
+}
+//Write in XML
+void Game::writeScoreInXML(int& xScore, int& oScore)
+{
+	pugi::xml_document doc;
+
+    pugi::xml_parse_result result = doc.load_file("scoreboard.xml");
+
+    if(!result){
+        cerr << "XML parsed with errors\n";
+        cerr << "Error description: " << result.description() << "\n";
+        return;
+    }
+
+    pugi::xml_node game = doc.child("Game");
+
+    game.child("PlayerX").attribute("score").set_value(xScore);
+	game.child("PlayerO").attribute("score").set_value(oScore);
+
+    doc.save_file("scoreboard.xml");
+}
+
+//Read from XML
+void Game::readFromScoreFromXML(int& xScore, int& oScore){
+	pugi::xml_document doc;
+
+    pugi::xml_parse_result result = doc.load_file("scoreboard.xml");
+
+    if(!result){
+        cerr << "XML parsed with errors\n";
+        cerr << "Error description: " << result.description() << "\n";
+        return;
+    }
+
+    pugi::xml_node game = doc.child("Game");
+
+    xScore = game.child("PlayerX").attribute("score").as_int(); // corresponse to <PlayerO score="XXX" />
+	oScore = game.child("PlayerO").attribute("score").as_int();
 }

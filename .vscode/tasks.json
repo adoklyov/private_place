@@ -19,7 +19,7 @@
                 "command": "bash",
                 "args": [
                     "-c",
-                    "g++ /home/default/private_place/src/main.cpp /home/default/private_place/src/Player.cpp /home/default/private_place/src/Button.cpp /home/default/private_place/src/Board.cpp /home/default/private_place/src/Game.cpp -I/usr/include/SDL2 -D_REENTRANT -L/usr/lib -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -o /home/default/private_place/src/main"
+                    "g++ /home/default/private_place/src/main.cpp /home/default/private_place/src/Player.cpp /home/default/private_place/src/Button.cpp /home/default/private_place/src/Board.cpp /home/default/private_place/src/Game.cpp -I/usr/include/SDL2 -lpugixml -L/home/default/Desktop/pugixml-1.14/build -D_REENTRANT -L/usr/lib -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -o /home/default/private_place/src/main"
                 ]
             },
             "osx": {

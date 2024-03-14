@@ -1,6 +1,12 @@
 {
     "files.associations": {
         "ostream": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "*.tcc": "cpp",
+        "string": "cpp",
+        "istream": "cpp",
+        "random": "cpp",
+        "optional": "cpp",
+        "system_error": "cpp"
     }
 }
